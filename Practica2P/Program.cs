@@ -33,7 +33,10 @@ namespace Practica2P
 
         static string[] razasComunes = {"caniche", "salchicha", "golden", "policia", "galgo"};
         
-        static int[,] visitasVeterinarias = new int[24, 12]; 
+        static int[,] visitasVeterinarias = new int[24, 12];
+
+        static int codigo = 1;
+        
 
         static void Main(string[] args)
         {
@@ -87,29 +90,42 @@ namespace Practica2P
         }
         static void cargarMascotas()
         {
-            Mascota nuevaMascota;
-            Console.Write("Ingrese codigo: ");
-            nuevaMascota.codigo = int.Parse(Console.ReadLine()); 
-            
-            Console.Write("Ingrese nombre de la mascota: ");
-            nuevaMascota.nombre = Console.ReadLine();
 
-            Console.WriteLine("Ingrese la raza(1-5): ");
-            for (int i = 0; i < razasComunes.Length; i++) 
+            string opcion;
+            do
             {
-                Console.WriteLine($"{i+1}. {razasComunes[i]}");
+                Console.WriteLine("Desea ingresar una nueva mascota?(S/N)");
+                opcion = Console.ReadLine();
+                if (opcion == "S") 
+                {
+                    Mascota nuevaMascota;
+
+                    nuevaMascota.codigo = codigo;
+                    codigo++;
+
+                    Console.Write("Ingrese nombre de la mascota: ");
+                    nuevaMascota.nombre = Console.ReadLine();
+
+                    Console.WriteLine("Ingrese la raza(1-5): ");
+                    for (int i = 0; i < razasComunes.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {razasComunes[i]}");
+                    }
+                    int opcionElegida = int.Parse(Console.ReadLine());
+                    nuevaMascota.raza = razasComunes[opcionElegida - 1];
+
+                    Console.Write("Ingrese edad: ");
+                    nuevaMascota.años = double.Parse(Console.ReadLine());
+
+                    Console.Write("Ingrese pelaje('C-corto, M-medio, L-largo): ");
+                    nuevaMascota.pelaje = char.ToUpper(Console.ReadKey().KeyChar);
+                    Console.WriteLine();
+
+                    mascotas.Add(nuevaMascota);
+                }
             }
-            int opcionElegida= int.Parse(Console.ReadLine());
-            nuevaMascota.raza = razasComunes[opcionElegida - 1];
-
-            Console.Write("Ingrese edad: ");
-            nuevaMascota.años = double.Parse(Console.ReadLine());
-
-            Console.Write("Ingrese pelaje('C-corto, M-medio, L-largo): ");
-            nuevaMascota.pelaje = char.ToUpper(Console.ReadKey().KeyChar);
-            Console.WriteLine();
+            while (opcion != "N");
             
-            mascotas.Add(nuevaMascota);
         }
 
         static void listarMascotas()
